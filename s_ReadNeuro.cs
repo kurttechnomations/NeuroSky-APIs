@@ -8,6 +8,7 @@ public class s_ReadNeuro : MonoBehaviour {
 	public int tgConnectionStatus;
 	public int tgPacketCount;
 	public float attention;
+	public float blink;
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +25,7 @@ public class s_ReadNeuro : MonoBehaviour {
 		tgHandleId = ThinkGear.TG_GetNewConnectionId();
 		
 		tgConnectionStatus = ThinkGear.TG_Connect(tgHandleId,
-		                                          "\\\\.\\COM4", 
+		                                          "\\\\.\\COM3", 
 		                                          ThinkGear.BAUD_9600, 
 		                                          ThinkGear.STREAM_PACKETS);
 		ThinkGear.TG_EnableBlinkDetection (tgHandleId, 1);
@@ -35,11 +36,13 @@ public class s_ReadNeuro : MonoBehaviour {
 	void readNeuro() {
 		tgPacketCount = ThinkGear.TG_ReadPackets(tgHandleId, -1);
 	
-		attention = ThinkGear.TG_GetValue (tgHandleId, ThinkGear.DATA_BLINK_STRENGTH);
-		this.gameObject.guiText.text = attention.ToString ();
+		attention = ThinkGear.TG_GetValue (tgHandleId, ThinkGear.DATA_ATTENTION);
+		blink = ThinkGear.TG_GetValue (tgHandleId, ThinkGear.DATA_BLINK_STRENGTH);
+
+		//this.gameObject.guiText.text = attention.ToString ();
 	}
 
-	void OnGUI () {
+	/*void OnGUI () {
 		// Make a background box
 		//GUI.Box(new Rect(10,10,100,90), "Loader Menu");
 		
@@ -48,6 +51,5 @@ public class s_ReadNeuro : MonoBehaviour {
 			ThinkGear.TG_Disconnect(tgHandleId);
 			//ThinkGear.TG_FreeConnection(tgHandleId);
 		}
-
-	}
+	}*/
 }
